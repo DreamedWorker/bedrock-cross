@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: false,
         actions: [
           IconButton(onPressed: (){}, icon: const Icon(Icons.add), tooltip: "创建新项目",),
-          IconButton(onPressed: loadFileSystem, icon: const Icon(Icons.refresh), tooltip: "刷新列表",),
+          IconButton(onPressed: (){findWorks(context);}, icon: const Icon(Icons.refresh), tooltip: "刷新列表",),
           homeMenu(context)
         ],
       ),
@@ -21,10 +21,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void loadFileSystem(){
-    var target = Directory('/Users/bluedream/Desktop/').listSync();
-    for (var file in target){
-      print(file.path);
+  void findWorks(BuildContext context){
+    var workList = Directory('/Users/bluedream/Documents/mstd-cp/');
+    if(!workList.existsSync()){
+      workList.create();
+      GFToast.showToast("初始化完成", context);
     }
   }
 
