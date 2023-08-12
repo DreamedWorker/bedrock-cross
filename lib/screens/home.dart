@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:mstd_cp/screens/blueprint/model_choose.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -12,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         centerTitle: false,
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.add), tooltip: "创建新项目",),
+          IconButton(onPressed: (){ Get.to(() => ModelChoose()); }, icon: const Icon(Icons.add), tooltip: "创建新项目",),
           IconButton(onPressed: (){findWorks(context);}, icon: const Icon(Icons.refresh), tooltip: "刷新列表",),
           homeMenu(context)
         ],
