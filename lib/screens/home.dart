@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:mstd_cp/control/home_control.dart';
 import 'package:mstd_cp/screens/blueprint/model_choose.dart';
 
 class HomeScreen extends StatelessWidget {
+  final homeControl = Get.put(HomeControl());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,16 +21,32 @@ class HomeScreen extends StatelessWidget {
           homeMenu(context)
         ],
       ),
-      body: const Column(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: projectLists(context),
+      ),
     );
   }
 
-  void findWorks(BuildContext context){
-    var workList = Directory('/Users/bluedream/Documents/mstd-cp/');
-    if(!workList.existsSync()){
-      workList.create();
-      GFToast.showToast("初始化完成", context);
+  Widget projectLists(BuildContext buildContext){
+    var worksPath = Directory('/Users/bluedream/Documents/mstd-cp/workspace');
+    if(!worksPath.existsSync()){
+      worksPath.createSync();
     }
+    var workList = worksPath.listSync();
+    return Obx(() => ListView.builder(
+      itemCount: homeControl.simpleFileList.value.length,
+      itemBuilder: (context, index){
+        return ListTile(
+          title: Text(homeControl.simpleFileList.value[index].path.split('/').last),
+          leading: const Icon(Icons.file_present),
+        );
+      }));
+  }
+
+  void findWorks(BuildContext context){
+    homeControl.updateFileList();
   }
 
   Widget homeMenu(BuildContext context){
